@@ -3,7 +3,6 @@
   <p align="center">
      Contenido de las prácticas de la cátedra de Programación 2 de la <strong> Facultad de Informática UNLP :computer: </strong>
   </p>
-  <br><br>
  Si se te ocurre algún ejemplo, tema o ejercicio que quieras que incluya: <br> <i>Anda a la sección de <b><a href="https://github.com/OmgCopito95/Programacion-2/issues">ISSUES</a></b> y creá uno nuevo diciéndome lo que necesitas!</i> 🙂
   <hr>
 </div>
