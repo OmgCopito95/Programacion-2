@@ -1,0 +1,39 @@
+programa Mensaje 
+areas
+  ciudad : AreaC(1,1,100,100)
+robots 
+  robot tipo1
+  comenzar
+    mover
+    mover
+    mover 
+    EnviarMensaje(3,robot2)
+    EnviarMensaje(4,robot2)
+    mover
+    mover 
+  fin
+  robot tipo2
+  variables
+    aux : numero
+  comenzar
+    mover
+    mover
+    mover
+    mover
+    mover
+    RecibirMensaje(aux,robot1)
+    Informar(aux)
+    RecibirMensaje(aux,robot1)
+    Informar(aux)
+    mover
+    mover
+  fin   
+variables 
+  robot1: tipo1
+  robot2: tipo2 
+comenzar 
+  AsignarArea(robot1,ciudad)
+  AsignarArea(robot2,ciudad)
+  Iniciar(robot1, 10, 10)
+  Iniciar(robot2, 1, 1 ) 
+fin

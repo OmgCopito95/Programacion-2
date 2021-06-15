@@ -1,0 +1,136 @@
+programa TPRepaso
+procesos
+  proceso JuntarFlor(ES exito : boolean)
+  comenzar
+    si (HayFlorEnLaEsquina)
+      tomarFlor
+    sino
+      exito := F
+  fin
+  proceso BuscarFlor(E av : numero; E ca : numero; ES exito : boolean)
+  comenzar
+    BloquearEsquina(100,100)
+    Pos(100,100)
+    JuntarFlor(exito)
+    Pos(av, ca)
+    LiberarEsquina(100,100)
+    si (exito)
+      depositarFlor
+  fin
+  proceso L(E av : numero; E ca : numero; ES exito : boolean)
+  comenzar
+    exito := V
+    Pos(av, ca)
+    derecha
+    repetir 5
+      si (exito)
+        BuscarFlor(PosAv, PosCa, exito)
+      mover
+    derecha
+    repetir 10
+      si (exito)
+        BuscarFlor(PosAv, PosCa, exito)
+      mover
+    si (exito)
+      BuscarFlor(PosAv, PosCa, exito)
+  fin
+areas
+  areaFuente : AreaPC(100,100,100,100)
+  areaL1 : AreaP(20,60,25,70)
+  areaL2 : AreaP(27,60,32,70)
+  areaL3 : AreaP(34,60,39,70)
+  areaInicial : AreaC(1,1,4,1)
+  areaR1 : AreaP(1,3,51,3)
+  areaR2 : AreaP(1,5,51,5)
+  areaR3 : AreaP(1,7,51,7)
+  
+robots
+  robot tipoL
+  variables
+    id : numero
+    av, ca : numero
+    exito : boolean
+    pasos : numero
+  comenzar
+    RecibirMensaje(id, jefe)
+    RecibirMensaje(av, jefe)
+    RecibirMensaje(ca, jefe)
+    Informar(id)
+    Informar(av)
+    Informar(ca)
+    L(av, ca, exito)
+    EnviarMensaje(id, jefe)
+    EnviarMensaje(exito, jefe)
+    si (exito)
+      RecibirMensaje(pasos, jefe)
+      RecibirMensaje(ca, jefe)
+      Pos(1, ca)
+      repetir 3
+        derecha
+      repetir pasos
+        mover  
+  fin
+  robot coordinador
+  variables
+    id : numero
+    pasos : numero
+    exito : boolean
+  comenzar
+    EnviarMensaje(1, robot1)
+    EnviarMensaje(20, robot1)
+    EnviarMensaje(70, robot1)
+    EnviarMensaje(2, robot2)
+    EnviarMensaje(27, robot2)
+    EnviarMensaje(70, robot2)
+    EnviarMensaje(3, robot3)
+    EnviarMensaje(34, robot3)
+    EnviarMensaje(70, robot3)
+    repetir 3
+      RecibirMensaje(id, *)
+      si (id = 1)
+        RecibirMensaje(exito, robot1)
+        si (exito)
+          Random(pasos, 20, 50)
+          EnviarMensaje(pasos, robot1)
+          EnviarMensaje(3, robot1)
+      si (id = 2)
+        RecibirMensaje(exito, robot2)
+        si (exito)
+          Random(pasos, 20, 50)
+          EnviarMensaje(pasos, robot2)
+          EnviarMensaje(5, robot2)
+      si (id = 3)
+        RecibirMensaje(exito, robot3)
+        si (exito)
+          Random(pasos, 20, 50)
+          EnviarMensaje(pasos, robot3)
+          EnviarMensaje(7, robot3) 
+  fin
+ 
+variables
+  robot1 : tipoL
+  robot2 : tipoL
+  robot3 : tipoL
+  jefe : coordinador
+
+comenzar
+  AsignarArea(robot1, areaInicial)
+  AsignarArea(robot1, areaL1)
+  AsignarArea(robot1, areaFuente)
+  AsignarArea(robot1, areaR1)
+  AsignarArea(robot2, areaInicial)
+  AsignarArea(robot2, areaL2)
+  AsignarArea(robot2, areaFuente)
+  AsignarArea(robot2, areaR2)
+  AsignarArea(robot3, areaInicial)
+  AsignarArea(robot3, areaL3)
+  AsignarArea(robot3, areaFuente)
+  AsignarArea(robot3, areaR3)
+  AsignarArea(jefe, areaInicial)
+  Iniciar(robot1, 2, 1)
+  Iniciar(robot2, 3, 1)
+  Iniciar(robot3, 4, 1)
+  Iniciar(jefe, 1, 1)
+fin
+  
+

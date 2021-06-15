@@ -1,0 +1,59 @@
+ORG 1000H
+TABLA DW 1, 2, 5, 4, 3
+X DW 3
+SUM DW 0
+
+
+ORG 3500H
+MULT1: PUSH BX ; Apilo por reutilización
+PUSH CX ; Apilo por reutilización
+MOV BX,AX ; Copio en BX el nro de veces para sumas sucesivas
+MOV CX, 0 ; Inicializo el resultado
+SIGUE: CMP BX, 0 ; Cuando llega a cero se terminan las sumas sucesivas 
+JZ FFIN
+ADD CX, DX ; Sumo 
+dec BX ; Avanzo en la iteración
+jmp SIGUE
+FFIN: MOV DX,CX ; El resultado queda en DX
+POP CX ; Desapilo por reutilización 
+POP BX ; Desapilo por reutilización 
+RET
+
+ORG 3000H
+POT: PUSH BX ; Apilo el valor de BX para poder reutilizar la subrutina
+MOV BX, SP ; Guardo el SP para acceder al parámetro de la pila
+ADD BX, 4 ; Sumo por el PUSH de la subrutina y por el retorno
+PUSH CX ; Apilo por reutilización
+PUSH DX ; Apilo por reutilización
+MOV BX,[BX] ; Traigo la dirección del parámetro por referencia
+MOV CX,[BX] ; Recibo el valor del parámetro por referencia
+MOV DX, 1 ; Inicializo la multiplicación
+ITER: CMP CX, 0 ; Itero hasta que CX se vuelva cero
+JZ FINR 
+CALL MULT1 ; Multiplico el valor y lo dejo en DX
+DEC CX ; Una iteración menos
+JMP ITER
+FINR: MOV [BX],DX ; Guardo el resultado en memoria
+POP DX ; Desapilo por reutilización 
+POP CX ; Desapilo por reutilización
+POP BX ; Desapilo por reutilización
+RET
+
+
+ORG 2000H
+MOV BX, OFFSET TABLA ; Guardo el inicio de la tabla para iterar
+MOV AX, X ; Guardo el valor de X para pasarlo vía registro AX
+MOV CX, OFFSET X - OFFSET TABLA ; Guardo la cantidad de elementos de tipo word para iterar
+MOV DX, 0 ; Inicializo el resultado 
+BUCLE: CMP CX, 0 ; Comparo para saber si terminé con la tabla
+JZ FIN ; Si es cero terminé
+PUSH BX ;Envío el parámetro por referencia 
+CALL POT ; Llamo a la rutina
+POP BX ; Recupero el valor de BX para seguir recorriendo la tabla
+ADD DX, [BX] ; Sumo en DX para totalizar la suma de potencias
+ADD BX, 2 ; Avanzo en el recorrido de la tabla
+SUB CX, 2 ; Dos bytes menos por procesar
+JMP BUCLE ; Itero
+FIN: MOV SUM, DX ; Guardo la suma de potencias en memoria (eficientemente)
+HLT 
+END
