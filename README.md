@@ -8,7 +8,7 @@
 </div>
 
 
-## Ejercicios de Ayuda
+## Códigos de Ayuda
 
 - **[IMPERATIVO](https://github.com/OmgCopito95/Algoritmos-Basicos/tree/master/IMPERATIVO)**
 
