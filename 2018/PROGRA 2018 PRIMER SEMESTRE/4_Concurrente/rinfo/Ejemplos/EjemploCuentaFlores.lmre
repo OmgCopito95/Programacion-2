@@ -1,0 +1,20 @@
+programa CuentaFlores
+areas 
+  ciudad: AreaC (1,1,100,100) 
+robots 
+  robot robot1 
+  variables 
+    flores: numero  
+  comenzar 
+    flores:=0 
+    mientras (HayFlorEnLaEsquina) 
+      tomarFlor {registramos que se tomo una flor} 
+      flores:= flores+1 
+    Informar (flores) 
+  fin 
+variables 
+  Rinfo: robot1 
+comenzar 
+  AsignarArea (Rinfo,ciudad) 
+  Iniciar (Rinfo,1,1) 
+fin 

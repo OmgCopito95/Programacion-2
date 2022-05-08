@@ -1,0 +1,80 @@
+programa Ejercicio2-3a
+
+procesos
+  proceso hacerRectangulo(E base: numero; E altura:numero)  
+  variables
+    inc:numero
+  comenzar
+    inc:=1
+    repetir 2
+      repetir altura
+        mientras (HayFlorEnLaEsquina)
+          tomarFlor
+        BloquearEsquina(PosAv, PosCa + inc)
+        mover
+        LiberarEsquina(PosAv, PosCa - inc)
+      derecha 
+      repetir base
+        mientras (HayFlorEnLaEsquina)
+          tomarFlor
+        BloquearEsquina(PosAv + inc, PosCa)
+        mover
+        LiberarEsquina(PosAv - inc, PosCa)
+      derecha 
+      inc:=-1
+  fin
+
+areas
+  ciudad : AreaC(1,1,100,100)
+
+robots 
+  robot tipo1
+  variables
+    altura,base, inc: numero
+  comenzar
+    {hacerRectangulo(5,3)}
+    altura:=3
+    base:=5
+    inc:=1
+    repetir 2
+      repetir altura
+        mientras (HayFlorEnLaEsquina)
+          tomarFlor
+        BloquearEsquina(PosAv, PosCa + inc)
+        mover
+        LiberarEsquina(PosAv, PosCa - inc)
+      derecha 
+      repetir base
+        mientras (HayFlorEnLaEsquina)
+          tomarFlor
+        BloquearEsquina(PosAv + inc, PosCa)
+        mover
+        LiberarEsquina(PosAv - inc, PosCa)
+      derecha 
+      inc:=-1
+  fin
+
+
+variables 
+  robot1: tipo1
+  robot2: tipo1
+  robot3: tipo1
+  robot4: tipo1
+  robot5: tipo1
+  robot6: tipo1
+  
+comenzar 
+  AsignarArea(robot1,ciudad)
+  AsignarArea(robot2,ciudad)
+  AsignarArea(robot3,ciudad)
+  AsignarArea(robot4,ciudad)
+  AsignarArea(robot5,ciudad)
+  AsignarArea(robot6,ciudad)
+
+  Iniciar(robot1, 2, 2)
+  Iniciar(robot2, 6, 2) 
+  Iniciar(robot3, 10, 2)
+  Iniciar(robot4, 14, 2)
+  Iniciar(robot5, 18, 2)
+  Iniciar(robot6, 22, 2)
+fin

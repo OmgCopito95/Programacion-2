@@ -1,0 +1,36 @@
+programa Ejercicio2
+procesos
+  proceso VaciarEsquinaFlor
+  comenzar
+    si (HayFlorEnLaEsquina)
+      tomarFlor
+  fin
+  proceso DepositarEsquinaFlor
+  comenzar
+    si (HayFlorEnLaBolsa)
+      depositarFlor
+  fin
+areas
+  ciudad : AreaC(1,1,100,100)
+robots 
+  robot tipo1
+  variables
+   
+  comenzar
+    repetir 10
+     
+      mover
+  fin   
+ 
+variables 
+  robot1: 
+  robot2: 
+comenzar 
+  AsignarArea(robot1,ciudad)
+  AsignarArea(robot2,ciudad)
+  Iniciar(robot1, 1, 1)
+  Iniciar(robot2, 2, 1 ) 
+fin 
+ 
+ 
+

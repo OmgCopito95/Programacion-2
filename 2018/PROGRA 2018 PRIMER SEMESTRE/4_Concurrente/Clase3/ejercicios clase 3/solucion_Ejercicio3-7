@@ -1,0 +1,125 @@
+programa Ejercicio3-7
+
+procesos
+  proceso hacerRectangulo (E alto: numero; E ancho: numero; ES cant:numero)  
+  comenzar
+    repetir 2
+      repetir alto
+        mientras (HayFlorEnLaEsquina)
+          cant:= cant + 1
+          tomarFlor
+        mover
+      derecha     
+      repetir ancho
+        mientras (HayFlorEnLaEsquina)
+          cant:= cant + 1
+          tomarFlor
+        mover
+      derecha 
+  fin
+
+areas
+  ciudad : AreaC(1,1,100,100)
+
+robots 
+  robot tipo1
+  variables
+    cantidad:numero
+    av: numero
+    ca: numero
+    id: numero
+    alto: numero
+    ancho: numero
+  comenzar
+    cantidad:= 0
+    RecibirMensaje(id, jefe)
+    RecibirMensaje(av, jefe)
+    RecibirMensaje(ca, jefe)
+    Pos(av,ca)
+    
+    Random(alto, 1, 20)
+    Random(ancho, 1, 3)
+    hacerRectangulo (alto, ancho, cantidad)
+    {Informar (cantidad)}
+    EnviarMensaje (id, jefe)
+    EnviarMensaje (cantidad, jefe)
+  fin
+
+  robot tipo2
+  variables
+    max:numero
+    cant: numero
+    id: numero
+    maxId: numero
+  comenzar
+    EnviarMensaje(1, robot1)
+    EnviarMensaje(12, robot1)
+    EnviarMensaje(10, robot1)
+    EnviarMensaje(2, robot2)
+    EnviarMensaje(16, robot2) 
+    EnviarMensaje(10, robot2) 
+    EnviarMensaje(3, robot3)
+    EnviarMensaje(20, robot3)
+    EnviarMensaje(10, robot3)
+    EnviarMensaje(4,robot4)
+    EnviarMensaje(24,robot4)
+    EnviarMensaje(10, robot4)
+    EnviarMensaje(5, robot5)
+    EnviarMensaje(28, robot5)
+    EnviarMensaje(10, robot5)
+    EnviarMensaje(6, robot6)
+    EnviarMensaje(32, robot6)
+    EnviarMensaje(10, robot6)
+    
+    max:= -1
+    repetir 6
+      RecibirMensaje(id, *)
+      si(id = 1)
+        RecibirMensaje(cant, robot1)
+      sino 
+        si(id = 2)
+          RecibirMensaje(cant, robot2)
+        sino
+          si(id = 3)
+            RecibirMensaje(cant, robot3)
+          sino
+            si(id = 4)
+              RecibirMensaje(cant, robot4)
+            sino
+              si(id = 5)
+                RecibirMensaje(cant, robot5)
+              sino 
+                RecibirMensaje(cant, robot6)
+        si (cant > max )
+          max:= cant
+          maxId:= id
+    Informar (max, maxId)
+  fin
+
+variables 
+  robot1: tipo1
+  robot2: tipo1
+  robot3: tipo1
+  robot4: tipo1
+  robot5: tipo1
+  robot6: tipo1
+  jefe: tipo2
+
+  
+comenzar 
+  AsignarArea(robot1,ciudad)
+  AsignarArea(robot2,ciudad)
+  AsignarArea(robot3,ciudad)
+  AsignarArea(robot4,ciudad)
+  AsignarArea(robot5,ciudad)
+  AsignarArea(robot6,ciudad)
+  AsignarArea(jefe,ciudad)
+  Iniciar(robot1, 2, 2)
+  Iniciar(robot2, 5, 2) 
+  Iniciar(robot3, 8, 2)
+  Iniciar(robot4, 11, 2)
+  Iniciar(robot5, 14, 2)
+  Iniciar(robot6, 17, 2)
+  Iniciar(jefe, 1, 1)
+fin 
+ 

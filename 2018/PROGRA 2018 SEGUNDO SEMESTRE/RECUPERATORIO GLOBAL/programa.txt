@@ -1,0 +1,185 @@
+Program global;
+Uses
+    sysutils;
+Type
+    fecha = record
+        dia: 1..31;
+        mes: 1..12;
+        anio: integer;
+    end;
+
+    prestamo = record
+        codigo: integer;
+        fecha: fecha;
+        monto: real;
+        saldado: boolean;
+    end;
+
+    listaPrestamos = ^nodoPrestamo;
+
+    nodoPrestamo = record
+        dato: prestamo;
+        sig: listaPrestamos;
+    end;
+
+    cliente = record
+        dni: longint; {es un entero que permite 8 cifras (sin puntos)}
+        nomape: string;
+        prestamos: listaPrestamos;
+    end;
+
+    listaClientes = ^nodoCliente;
+    nodoCliente = record
+        dato: cliente;
+        sig: listaClientes;
+    end;
+
+{-----------------------------------------------------------------------------
+CARGARFECHA - Genera una FECHA aleatorias }
+procedure cargarFecha(var f: fecha);
+begin
+    with f do begin
+        dia := random(31)+1;
+        mes := random(12)+1;
+        if(mes = 2)then
+            dia:= (dia mod 28)+1
+        else
+            if(mes = 4)or(mes = 6)or(mes = 9)or(mes = 11)then
+                dia := random(30)+1;
+        anio := ((random(20)+1)*2018) mod 2019;
+    end;
+end;
+
+{-----------------------------------------------------------------------------
+FECHAMAYORQUE - Retorna Verdadero si la fecha f1 es mayor que f2}
+function fechaMayorQue(f1: fecha; f2: fecha): boolean;
+var
+    aux: boolean;
+begin
+   if (f1.anio = f2.anio) then
+      if (f1.mes = f2.mes) then
+         aux:= f1.dia > f2.dia
+      else
+         aux:= f1.mes > f2.mes
+   else
+      aux:= f1.anio > f2.anio;
+    fechaMayorQue:= aux;
+end;
+
+Procedure agregarPrestamo(var l: listaPrestamos; p: prestamo);
+var
+	aux: listaPrestamos;
+begin
+	new(aux);
+	aux^.dato:=p;
+	aux^.sig:=l;
+	l:=aux;
+end;
+
+Procedure agregarCliente(var l: listaClientes; c: cliente);
+var
+	aux: listaClientes;
+begin
+	new(aux);
+	aux^.dato:=c;
+	aux^.sig:=l;
+	l:=aux;
+end;
+
+{CREARLISTA - Genera una lista de prestamos}
+procedure crearListaPrestamos(var l: listaPrestamos);
+var
+    i: integer;
+    p: prestamo;
+begin
+    for i:=1 to random(3)+1 do begin
+        p.codigo:= random(7000)+1;
+        cargarFecha(p.fecha);
+        p.monto:= Random * random(40000);
+        p.saldado:= (random(2) = 0);
+        agregarPrestamo(l, p);
+    end;
+end;
+
+{CREARLISTA - Genera una lista de clientes}
+procedure crearListaClientes(var l: listaClientes);
+var
+    i: integer;
+    c: cliente;
+begin
+    for i:=1 to random(5)+1 do begin
+        c.dni := random(46000000)+10000000;
+        c.nomape := Concat('Cliente_',IntToStr(i));
+        c.prestamos := nil;
+        crearListaPrestamos(c.prestamos);
+        agregarCliente(l, c);
+    end;
+    writeln('Lista creada');
+end;
+
+{-----------------------------------------------------------------------------
+IMPRIMIRELEMENTO - Muestra en pantalla una fechaHora }
+procedure imprimirFecha(f: fecha);
+begin
+    with(f) do begin
+        if(dia < 10)then //imprime el cero anterior
+            write('0');
+        write(dia,'/',mes,'/', anio);
+    end;
+end;
+
+{-----------------------------------------------------------------------------
+IMPRIMIRELEMENTO - Muestra en pantalla los prestamos de un cliente}
+procedure imprimirPrestamo(p:prestamo);
+begin
+   with(p) do begin
+      if(saldado)then
+        write('    Prestamo saldado firmado el ')
+      else
+        write('    Prestamo pendiente firmado el ');
+      imprimirFecha(fecha);
+      write(' con codigo ', codigo, ' por el monto de $', monto:1:2);
+      writeln();
+    end;
+end;
+
+{-----------------------------------------------------------------------------
+IMPRIMIRELEMENTO - Muestra en pantalla un cliente}
+procedure imprimirCliente(c: cliente);
+var
+    aux:listaPrestamos;
+begin
+    with(c) do begin
+        write('Cliente con dni ', dni, ' y nombre ', nomape);
+        writeln();
+    end;
+    aux:= c.prestamos;
+    while (aux <> nil)do
+    begin
+       imprimirPrestamo(aux^.dato);
+       aux:=aux^.sig;
+    end;
+end;
+
+{-----------------------------------------------------------------------------
+IMPRIMIRLISTA - Muestra en pantalla la lista l }
+procedure imprimirLista(l: listaClientes);
+begin
+    while (l <> nil) do begin
+        imprimirCliente(l^.dato);
+        l:= l^.sig;
+    end;
+end;
+
+Var l:listaClientes;
+
+begin
+    Randomize;
+    l:= nil;
+    crearListaClientes(l);
+    writeln ('Lista disponible: ');
+    imprimirLista(l);
+
+    writeln('Fin del programa');
+    readln;
+end.

@@ -1,0 +1,25 @@
+programa Ejercicio1-1
+areas
+  ciudad : AreaC(1,1,100,100)
+robots 
+  robot tipo1
+  comenzar
+    repetir 10
+      mover
+    Pos (20,20)
+  fin
+  robot tipo2
+  comenzar
+    repetir 32
+      mover
+    Pos(20,20)
+  fin   
+variables 
+  robot1: tipo1
+  robot2: tipo2 
+comenzar 
+  AsignarArea(robot1,ciudad)
+  AsignarArea(robot2,ciudad)
+  Iniciar(robot1, 20, 10)
+  Iniciar(robot2, 10, 10 ) 
+fin

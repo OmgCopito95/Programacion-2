@@ -1,0 +1,19 @@
+programa VariableAleatoria
+areas 
+  ciudad: AreaC (1,1,100,100) 
+robots 
+  robot robot1 
+  variables 
+    flores: numero  
+  comenzar 
+    flores:=0
+    Informar(flores) 
+    Random(flores,1,4)
+    Informar (flores) 
+  fin 
+variables 
+  Rinfo: robot1 
+comenzar 
+  AsignarArea (Rinfo,ciudad) 
+  Iniciar (Rinfo,1,1) 
+fin 

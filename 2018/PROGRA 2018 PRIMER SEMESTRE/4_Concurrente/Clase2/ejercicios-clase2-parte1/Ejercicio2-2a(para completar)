@@ -1,0 +1,34 @@
+programa Ejercicio2-2a
+procesos
+  proceso hacerRectangulo(E base: numero; E altura:numero)  
+  comenzar
+    repetir 2
+      repetir altura
+        mientras (HayFlorEnLaEsquina)
+          tomarFlor
+        mover
+      derecha 
+      repetir base
+        mientras (HayFlorEnLaEsquina)
+          tomarFlor
+        mover
+      derecha 
+  fin
+
+areas
+  ciudad : AreaC(1,1,100,100)
+
+robots 
+  robot tipo1
+  comenzar
+    hacerRectangulo(,)
+  fin
+
+
+variables 
+  robot1: tipo1
+  
+comenzar 
+  AsignarArea(robot1,ciudad)
+  Iniciar(robot1, , )
+fin

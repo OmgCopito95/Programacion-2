@@ -1,0 +1,24 @@
+programa LeerVariable
+areas 
+  ciudad: AreaC (1,1,100,100) 
+robots 
+  robot robot1 
+  variables 
+    flores: numero
+    ok : boolean  
+  comenzar 
+    flores:=0
+    Informar(flores) 
+    Leer(flores)
+    Informar (flores)
+    ok:= V
+    Informar(ok)
+    Leer(ok)
+    Informar(ok) 
+  fin 
+variables 
+  Rinfo: robot1 
+comenzar 
+  AsignarArea (Rinfo,ciudad) 
+  Iniciar (Rinfo,1,1) 
+fin 

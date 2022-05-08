@@ -1,0 +1,73 @@
+programa Ejercicio3-4
+
+procesos
+  proceso hacerRectangulo (ES cant:numero)  
+  comenzar
+    repetir 2
+      repetir 5
+        mientras (HayFlorEnLaEsquina)
+          cant:= cant + 1
+          tomarFlor
+        mover
+      derecha     
+      repetir 3
+        mientras (HayFlorEnLaEsquina)
+          cant:= cant + 1
+          tomarFlor
+        mover
+      derecha 
+  fin
+
+areas
+  ciudad : AreaC(1,1,100,100)
+
+robots 
+  robot tipo1
+  variables
+    cantidad:numero
+  comenzar
+    cantidad:= 0
+    hacerRectangulo (cantidad)
+    Informar (cantidad)
+    EnviarMensaje (cantidad, jefe)
+  fin
+
+  robot tipo2
+  variables
+    total:numero
+    cant: numero
+  comenzar
+    total:= 0
+    repetir 6
+      RecibirMensaje(cant, *)
+      total := total + cant
+    Informar (total)
+  fin
+
+variables 
+  robot1: tipo1
+  robot2: tipo1
+  robot3: tipo1
+  robot4: tipo1
+  robot5: tipo1
+  robot6: tipo1
+  jefe: tipo2
+
+  
+comenzar 
+  AsignarArea(robot1,ciudad)
+  AsignarArea(robot2,ciudad)
+  AsignarArea(robot3,ciudad)
+  AsignarArea(robot4,ciudad)
+  AsignarArea(robot5,ciudad)
+  AsignarArea(robot6,ciudad)
+  AsignarArea(jefe,ciudad)
+  Iniciar(robot1, 2, 2)
+  Iniciar(robot2, 6, 2) 
+  Iniciar(robot3, 10, 2)
+  Iniciar(robot4, 14, 2)
+  Iniciar(robot5, 18, 2)
+  Iniciar(robot6, 22, 2)
+  Iniciar(jefe, 26, 2)
+fin 
+

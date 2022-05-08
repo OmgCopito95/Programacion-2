@@ -1,0 +1,140 @@
+
+PROGRAM torres_hanoi;
+USES CRT;
+
+CONST ndiscosmax  = 10;
+      nvarillas = 3;
+      esperabase = 1440;
+      cx = 10; cy = 20;
+
+TYPE tmatriz = ARRAY [1..ndiscosmax, 1..nvarillas] OF INTEGER;
+
+VAR
+
+   matriz :tmatriz;
+   ndiscos, velocidad, h :INTEGER;
+
+
+
+FUNCTION valor_obligado (limiteinf, limitesup :INTEGER; texto :STRING):INTEGER;
+VAR valor :INTEGER;
+BEGIN
+     REPEAT
+           WRITE(texto);
+           READLN(valor)
+
+     UNTIL (valor > limiteinf) AND (valor < limitesup);
+     valor_obligado := valor
+END;
+
+
+
+PROCEDURE introducir_datos (VAR ndiscos, velocidad :INTEGER);
+BEGIN
+     CLRSCR;
+     TEXTCOLOR(7);
+     ndiscos := valor_obligado (0, ndiscosmax, 'Introduzca el numero de discos (de 1 a 9): ');
+     velocidad := valor_obligado (0, 6, 'Velocidad de ejecucion del programa (de 1 a 5): ');
+
+END;
+
+
+PROCEDURE cargarmatriz;
+VAR i  :INTEGER;
+BEGIN
+           FOR i := 1 TO ndiscos DO
+           matriz[i,1] := ndiscos-i+1;
+END;
+
+
+
+PROCEDURE intercambio (r, i, s, j :INTEGER);
+BEGIN
+     matriz[s,j] := matriz[r,i]+ matriz[s,j];
+     matriz[r,i] := -(matriz[r,i] - matriz[s,j]);
+     matriz[s,j] := matriz[s,j] - matriz[r,i]
+END;
+
+
+PROCEDURE dibmatriz(matrizp :tmatriz);
+VAR i,j,k :INTEGER;
+BEGIN
+     CLRSCR;
+     FOR i:=ndiscos DOWNTO 1 DO BEGIN
+
+         FOR j:=1 TO nvarillas DO BEGIN
+
+             IF matrizp[i,j] = 0 THEN BEGIN
+
+                GOTOXY(cx + j*ndiscos*2, cy-i);
+                TEXTCOLOR(7);
+                WRITE('¦')
+
+                END
+
+             ELSE BEGIN
+
+                GOTOXY(cx + j*ndiscos*2 - matrizp[i,j] +1, cy-i);
+
+                FOR k:= 1 TO matrizp[i,j]*2-1 DO BEGIN
+                    TEXTCOLOR(matrizp[i,j]+1);
+                    WRITE('_')
+                    END;
+             END;
+         END;
+     END;
+     GOTOXY(cx + ndiscos, cy);
+
+     FOR k := 1 TO ndiscos*2*nvarillas +1 DO BEGIN
+
+         TEXTCOLOR(7);
+         WRITE('-')
+         END;
+     WRITELN;
+
+END;
+
+
+
+
+PROCEDURE mover (r,s :INTEGER);
+VAR i, j :INTEGER;
+BEGIN
+     i:=0;
+     WHILE matriz[i+1,r] <> 0 DO  {Busca el primer elemento no 0}
+           i:= i+1;
+
+     j:=1;
+     WHILE matriz[j,s] <> 0 DO  {Busca el primer elemento 0}
+           j:= j+1;
+
+     intercambio(i,r,j,s);
+     dibmatriz(matriz);
+     DELAY(TRUNC(esperabase/velocidad))
+END;
+
+
+
+
+PROCEDURE hanoi (discos, a, b :INTEGER);
+BEGIN
+     IF discos=1 THEN mover(a,b)
+     ELSE BEGIN
+        hanoi(discos-1, a, 6-a-b); 
+        mover(a,b); 
+        hanoi(discos-1, 6-a-b, b)
+     END;
+END;
+
+
+
+
+BEGIN
+     CLRSCR;
+     introducir_datos (ndiscos, velocidad);
+     cargarmatriz;
+     dibmatriz(matriz);
+     DELAY(1000);
+     hanoi (ndiscos,1,3);
+     READKEY
+END.
